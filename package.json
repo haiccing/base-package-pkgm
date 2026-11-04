@@ -1,0 +1,18 @@
+{
+  "name": "base-package-pkgm",
+  "description": "The package manager: packages as self-contained folders, installed into the host's install folder, tested within the package. Node's built-ins only.",
+  "private": true,
+  "license": "MIT",
+  "pkgm": {
+    "package": "pkgm",
+    "requires": [],
+    "folders": [
+      "pear-full-square/pkgm-base-manager",
+      "pear-full-square/pkgm-base-boot"
+    ],
+    "hash": "5e032e7338ed16e881dfbbbf8cd45bd1379c9b9c9df8e1cf17c3811be8f177cd",
+    "root": [
+      "kick.sh"
+    ]
+  }
+}
