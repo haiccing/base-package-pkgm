@@ -7,12 +7,8 @@
     "package": "pkgm",
     "requires": [],
     "folders": [
-      "pear-full-square/pkgm-base-manager",
-      "pear-full-square/pkgm-base-boot"
+      "pear-full-square/pkgm-base-manager"
     ],
-    "hash": "409c4f186c9b88d7a62e3ea7419ba19b0677465908d0483dce08f00409fb907c",
-    "root": [
-      "kick.sh"
-    ]
+    "hash": "0484594baf7aa911a264540fc37ee8c497d3f2caa77f6a5e5df633a99d50e079"
   }
 }

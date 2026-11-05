@@ -5,32 +5,15 @@ The package manager: packages as self-contained folders, installed into the host
 A package: self-contained, its code ready to run, laid out as it is installed. Written by the package manager (`pear-full-square/pkgm-base-manager`) from the development repository; do not edit here.
 
 - requires: nothing
-- hash: `409c4f186c9b88d7a62e3ea7419ba19b0677465908d0483dce08f00409fb907c`
+- hash: `0484594baf7aa911a264540fc37ee8c497d3f2caa77f6a5e5df633a99d50e079`
 
-## Kicking the package manager
+## Installed
 
-From a folder of `haiccing` repositories side by side, this one and `base-package-haicc` (whose boot does step 0, the host's prerequisites):
-
-```sh
-sh base-package-pkgm/kick.sh   # step 0, then the package manager into ~/.haicc/packages; ~/.haicc/bin/pkgm
-```
-
-## From scratch
-
-On a machine with only `curl` and `tar` (Linux x86-64): the repositories fetched as archives and unpacked side by side, then the kick.
-
-```sh
-mkdir -p ~/haiccing && cd ~/haiccing
-for r in base-package-haicc base-package-pkgm; do
-  curl -fsSL https://github.com/haiccing/$r/archive/refs/heads/main.tar.gz | tar -xz && mv $r-main $r
-done
-sh base-package-pkgm/kick.sh
-```
+By HAICC's boot (`haiccing/boot` in a work folder, from `base-package-haicc`), with its own code, into the work folder's `.haicc/packages`; HAICC is then installed by it. There is no boot of its own: everything starts at HAICC.
 
 ## Holds
 
 - `pear-full-square/pkgm-base-manager`
-- `pear-full-square/pkgm-base-boot`
 
 ## Installed
 
