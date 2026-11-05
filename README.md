@@ -5,7 +5,7 @@ The package manager: packages as self-contained folders, installed into the host
 A package: self-contained, its code ready to run, laid out as it is installed. Written by the package manager (`pear-full-square/pkgm-base-manager`) from the development repository; do not edit here.
 
 - requires: nothing
-- hash: `5e032e7338ed16e881dfbbbf8cd45bd1379c9b9c9df8e1cf17c3811be8f177cd`
+- hash: `409c4f186c9b88d7a62e3ea7419ba19b0677465908d0483dce08f00409fb907c`
 
 ## Kicking the package manager
 
