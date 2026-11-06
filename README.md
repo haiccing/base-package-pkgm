@@ -10,7 +10,7 @@ By HAICC's boot (`haiccing/boot` in a work folder, from `base-package-haicc`), w
 
 - holds: `pear-full-square/pkgm-base-manager`
 - requires: nothing
-- hash: `274c17c39d0d8e51350d61cdf289e2f43a3fe786c491179c80236005555afee4`
+- hash: `cd28ada5126fe73b792286df80dbd25a74eb5c545a8b6fb6e166a9c80ad010c5`
 
 In a work folder (see [haiccing/base-package-haicc](https://github.com/haiccing/base-package-haicc)), installed by HAICC as a project needs it, or by `./haicc install pkgm`, into `.haicc/packages` with what it requires; tested there, within the package: `./haicc test pkgm`.
 

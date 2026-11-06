@@ -45,9 +45,9 @@ const missing = (name, from) => new Error(`missing: ${ORG}/${repoName(name)} is 
 
 // ---- the install folder ---------------------------------------------------
 
-const registryFile = into => join(into, '.pkgm', 'installed.json')
+const registryFile = into => join(into, 'pkgm', 'installed.json')
 // Every change to the install folder, as a record (installed.json is the state).
-const change = (into, v) => { mkdirSync(join(into, '.pkgm'), { recursive: true }); appendFileSync(join(into, '.pkgm', 'changes.jsonl'), JSON.stringify({ time: new Date().toISOString(), ...v }) + '\n') }
+const change = (into, v) => { mkdirSync(join(into, 'pkgm'), { recursive: true }); appendFileSync(join(into, 'pkgm', 'changes.jsonl'), JSON.stringify({ time: new Date().toISOString(), ...v }) + '\n') }
 export const installed = into => existsSync(registryFile(into)) ? readJson(registryFile(into)) : { packages: {} }
 
 // A package, and first what it requires; skipped when installed and
@@ -74,7 +74,7 @@ export function install (name, { from, into, overrides = {}, log = () => {}, don
     if (clash) throw new Error(`${clash} belongs to ${repoName(other)}, not ${repoName(name)}`)
   }
   // Staged inside the install folder (one file system), then moved in place.
-  const stage = join(into, '.pkgm', 'stage', name)
+  const stage = join(into, 'pkgm', 'stage', name)
   remove(stage)
   for (const f of m.folders) copy(overrides[f] ? resolve(overrides[f]) : join(dir, f), join(stage, f), overrides[f] ? { skip: (r, n) => n === 'node_modules' || n === '.git' } : {})
   // The package's own files (manifest, readme, record, tests): kept with it.
@@ -84,7 +84,7 @@ export function install (name, { from, into, overrides = {}, log = () => {}, don
   writeJson(registryFile(into), reg)
   for (const f of new Set([...(have?.folders || []), ...(have?.links || []), ...m.folders])) remove(join(into, f))
   for (const f of m.folders) { mkdirSync(dirname(join(into, f)), { recursive: true }); renameSync(join(stage, f), join(into, f)) }
-  const meta = join(into, '.pkgm', 'packages', name)
+  const meta = join(into, 'pkgm', 'packages', name)
   remove(meta)
   mkdirSync(dirname(meta), { recursive: true })
   renameSync(join(stage, '.package'), meta)
@@ -113,10 +113,10 @@ export function uninstall (name, { into }) {
   const reg = installed(into)
   const have = reg.packages[name]
   if (!have) return false
-  const needed = Object.keys(reg.packages).filter(o => o !== name && (manifest(join(into, '.pkgm', 'packages', o)).requires || []).includes(name))
+  const needed = Object.keys(reg.packages).filter(o => o !== name && (manifest(join(into, 'pkgm', 'packages', o)).requires || []).includes(name))
   if (needed.length) throw new Error(`${repoName(name)} is required by ${needed.map(repoName).join(', ')}`)
   for (const f of [...have.folders, ...(have.links || [])]) remove(join(into, f))
-  remove(join(into, '.pkgm', 'packages', name))
+  remove(join(into, 'pkgm', 'packages', name))
   delete reg.packages[name]
   writeJson(registryFile(into), reg)
   change(into, { package: name, action: 'removed', hash: have.hash })
@@ -130,7 +130,7 @@ export function uninstall (name, { into }) {
 // PKGM_ROOT the install folder).
 export function testPackage (name, { into, log = () => {} }) {
   into = resolve(into)
-  const meta = join(into, '.pkgm', 'packages', name)
+  const meta = join(into, 'pkgm', 'packages', name)
   if (!existsSync(meta)) throw new Error(`${repoName(name)} is not installed in ${into}`)
   const m = manifest(meta)
   const runs = []
@@ -142,7 +142,7 @@ export function testPackage (name, { into, log = () => {} }) {
     delete env.NODE_TEST_CONTEXT
     const r = spawnSync(cmd, args, { cwd, encoding: 'utf8', env, maxBuffer: 64 * 1024 * 1024 })
     const out = (r.stdout || '') + (r.stderr || '')
-    const counts = Object.fromEntries(['tests', 'pass', 'fail'].map(k => [k, Number((out.match(new RegExp(`^# ${k} (\\d+)`, 'm')) || [])[1] || 0)]))
+    const counts = Object.fromEntries(['tests', 'pass', 'fail'].map(k => [k, Number((out.match(new RegExp(`^(?:#|ℹ) ${k} (\\d+)`, 'm')) || [])[1] || 0)]))
     const result = { what, ok: r.status === 0, ...counts, ms: Date.now() - t0, ...(r.status === 0 ? {} : { output: out.split('\n').slice(-40).join('\n') }) }
     log({ kind: 'tested', package: name, ...result, output: undefined })
     runs.push(result)
